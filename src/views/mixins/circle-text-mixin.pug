@@ -1,0 +1,12 @@
+mixin circle-text(title)
+  .service-box
+    svg.service-box__circle.service-circle(version='1.1', xmlns='http://www.w3.org/2000/svg', x='0', y='0', viewBox='0 0 300 300', xml:space='preserve')
+      circle.service-circle__inner-path(cx='150', cy='150', r='139', fill='none', stroke='#000', stroke-width='4', stroke-linecap='round', stroke-miterlimit='10', stroke-dasharray='0,8.0128')
+      g.service-circle__outer-path
+        circle.service-circle__outer-path--a(cx='150', cy='150', r='139')
+        circle.service-circle__outer-path--b(cx='150', cy='150', r='139')
+      g.service-circle__bullet
+        circle.service-circle__bullet--a(cx='11', cy='150', r='10')
+        circle.service-circle__bullet--b(cx='11', cy='150', r='10')
+    .service-box__content
+      h3.service-box__title !{title}
