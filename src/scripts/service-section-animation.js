@@ -2,6 +2,7 @@ import { utilities } from './utilities'
 import { settings } from './settings'
 
 (function($, window) {
+    "use strict"
 
     class ServiceAnim {
         constructor(container, options) {
@@ -24,6 +25,7 @@ import { settings } from './settings'
             this.createMainRail()
             this.initServiceBoxes()
             this.mainTimelineCreation()
+            this.scrollListener()
         }
 
         initServiceBoxes() {
@@ -32,7 +34,6 @@ import { settings } from './settings'
             gsap.set(this.container.querySelectorAll('.service-box__title'), { autoAlpha: 0.2 })
             gsap.set(this.container.querySelectorAll('.service-circle__bullet--a, .service-circle__bullet--b'), { autoAlpha: 0 })
             gsap.set(this.container, { autoAlpha: 1 })
-
         }
 
         createMainRail() {
@@ -61,7 +62,7 @@ import { settings } from './settings'
 
         	this.currentProgressPosition = this.progressTravelPosition 
         	this.progressPosition = !full ? serviceBoxRect.left / containerRect.width * 100 : 100
-        	this.progressTravelPosition = (serviceBoxRect.left + serviceBoxRect.width - 30) / containerRect.width * 100
+        	this.progressTravelPosition = (serviceBoxRect.left + serviceBoxRect.width - 20) / containerRect.width * 100
 
         	this.progressDurationCalculation()
 
@@ -76,14 +77,12 @@ import { settings } from './settings'
             this.tl = gsap.timeline({
                 delay: 0.5
             })
+            this.tl.staggerFrom(this.serviceBoxes, 0.5, {y: 200, autoAlpha: 0}, 0.1, 'start')
+            .to(this.container.querySelector('.progress-rail'), { duration: 0.2, autoAlpha: 1 })
 
-            this.tl.to(this.container.querySelector('.progress-rail'), { duration: 0.2, autoAlpha: 1 }, 'start')
             this.serviceBoxes.forEach((serviceBox, i) => {
-
             		this.updateProgress(serviceBox)
                 this.tl.add(this.boxTimeline(serviceBox, i), 'active-tl-' + i)
-
-                
             })
 
             this.updateProgress(this.serviceBoxes[this.serviceBoxesLength - 1], 100)
@@ -113,7 +112,7 @@ import { settings } from './settings'
                 	autoAlpha: 1
                 }, 'drawCircle-' + i)
                 .to(this.container.querySelector('.progress-rail'), {
-                    duration: this.options.circleDrawDuration + 0.1,
+                    duration: this.options.circleDrawDuration,
                     width: this.progressTravelPosition + '%',
                     ease: 'none'
                 }, 'drawCircle-' + i)
@@ -145,29 +144,40 @@ import { settings } from './settings'
         		bulletB = parentBox.querySelector('.service-circle__bullet--b')
 
         		tl.to([bulletA, bulletB], {
-        			duration: 0.2,
+        			duration: 0.1,
         			autoAlpha: 1,
         			ease: 'none'
         		}, 0)
         		.to(bulletA, {
         			duration: this.options.circleDrawDuration,
-        			svgOrigin: "150 150",
+        			svgOrigin: parentBox.getBoundingClientRect().width/2 + ' ' + parentBox.getBoundingClientRect().width/2,
         			rotation: 180,
         			ease: 'none'
         		}, 0)
         		.to(bulletB, {
         			duration: this.options.circleDrawDuration,
-        			svgOrigin: "150 150",
+        			svgOrigin: parentBox.getBoundingClientRect().width/2 + ' ' + parentBox.getBoundingClientRect().width/2,
         			rotation: -180,
         			ease: 'none'
         		}, 0)
         		.to([bulletA, bulletB], {
-        			duration: 0.2,
+        			duration: 0.1,
         			autoAlpha: 0,
         			ease: 'none'
         		}, this.options.circleDrawDuration - 0.1)
 
         		return tl
+        }
+
+        scrollListener() {
+        	this.scrollController = new ScrollMagic.Controller()
+        	let revealScene = new ScrollMagic.Scene({
+        		triggerElement: this.container,
+        		triggerHook: 'onEnter',
+        		duration: 0
+        	})
+        	.setTween(this.tl)
+        	.addTo(this.scrollController)
         }
 
     }

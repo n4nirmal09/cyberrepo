@@ -203,12 +203,12 @@ module.exports = env => {
                 plainSprite: true
             }),
             new SassLintPlugin(),
-            new webpack.ProvidePlugin({
-                $: 'jquery',
-                jQuery: 'jquery',
-                'window.$': 'jquery',
-                'window.jQuery': 'jquery'
-            }),
+            // new webpack.ProvidePlugin({
+            //     $: 'jquery',
+            //     jQuery: 'jquery',
+            //     'window.$': 'jquery',
+            //     'window.jQuery': 'jquery'
+            // }),
             new WebpackNotifierPlugin({
                 title: 'Your project'
             })
