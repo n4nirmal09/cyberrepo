@@ -11,8 +11,8 @@ import { swipe } from './swipedirection'
             this.options = Object.assign({}, NetworkStage.defaults, options)
             this.tl = null
             this.scrollController = null
-            this.navNext = this.container.querySelector('.network-stage__arrows--next')
-            this.navPrev = this.container.querySelector('.network-stage__arrows--prev')
+            this.navNext = this.container.querySelector('.network-stage__arrow--next')
+            this.navPrev = this.container.querySelector('.network-stage__arrow--prev')
             this.activeSlide = 1
             this.onFocus = false
             this.init()

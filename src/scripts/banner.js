@@ -86,6 +86,8 @@ import { settings } from './settings'
                 })
             }
 
+            
+
             gsap.set(bullet, {
                 xPercent: -50,
                 yPercent: -50,
@@ -117,6 +119,8 @@ import { settings } from './settings'
                 stagger: 0.05,
                 yPercent: 100
             }, 0.5)
+
+
 
         }
     }

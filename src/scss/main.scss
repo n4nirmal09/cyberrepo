@@ -2,6 +2,8 @@
 './base/functions',
 './base/mixins';
 
+@import './components';
 @import './service-section';
 @import './network-stage-section';
+@import './interactive-table-section';
 @import './hero-banner';

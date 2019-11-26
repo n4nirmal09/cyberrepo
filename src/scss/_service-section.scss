@@ -1,11 +1,41 @@
-// variable service specific
-$inner-circle-fill: #fff;
-$inner-circle-stroke: $blue-color;
-$outer-circle-stroke: $green-color;
-$bullet-color: $green-color;
-$progress-rail-color: $green-color;
-
 .service-section {
+  &__article {
+    @include media-breakpoint-custom-down($screen-sm) {
+      padding-bottom: 20px;
+      padding-top: 40px;
+    }
+    @include layout-container();
+    padding-bottom: 40px;
+    padding-top: 80px;
+
+    text-align: center;
+  }
+
+  &__title {
+    @include header-font();
+    color: $blue-color;
+  }
+
+  &__para {
+    @include featured-font();
+  }
+}
+
+.service-chart {
+  &__header {
+    @include media-breakpoint-custom-down($screen-sm) {
+      padding-top: 20px;
+    }
+    @include layout-container();
+    padding-top: 40px;
+  }
+
+  &__title {
+    @include header-font();
+    color: $blue-color;
+    text-align: center;
+  }
+
   &__animation-canvas {
     display: flex;
     flex-flow: row wrap;
@@ -83,7 +113,7 @@ $progress-rail-color: $green-color;
     &--a,
     &--b {
       @include media-breakpoint-custom-down($screen-sm) {
-        display: none!important;
+        display: none !important;
       }
 
       fill: $bullet-color;
@@ -98,7 +128,7 @@ $progress-rail-color: $green-color;
   }
 
   @include media-breakpoint-custom-down($screen-sm) {
-    display: none!important;
+    display: none !important;
   }
 
   background: $progress-rail-color;

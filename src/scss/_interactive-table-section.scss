@@ -1,0 +1,335 @@
+
+.interactive-table {
+  @include layout-container();
+
+  &__wrapper {
+    border: 1px solid $blue-color;
+  }
+  
+
+  &__header {
+    background: $blue-color;
+    color: $white-color;
+    padding: 20px;
+  }
+
+  &__row {
+    border-top: 1px solid $blue-color;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+
+  &__col {
+    display: flex;
+
+    &--full {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    &--justify-center {
+      justify-content: center;
+    }
+
+    &--align-center {
+      align-items: center;
+    }
+  }
+}
+
+
+.interactive-table-expander {
+  width: 100%;
+
+  &__header {
+    @include media-breakpoint-custom-down($interactive-table-bp) {
+      padding: 15px 20px;
+    }
+    cursor: pointer;
+    overflow: hidden;
+    padding: 25px 20px;
+    position: relative;
+    text-align: center;
+    transition: ease .4s;
+    z-index: 1;
+  }
+
+  &__status-icon {
+    @include media-breakpoint-custom-down($interactive-table-bp) {
+      right: 20px;
+    }
+
+    position: absolute;
+    right: 50px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  &__content {
+    border-top: 1px solid $blue-color;
+    display: none;
+  }
+
+  &__title {
+    @include media-breakpoint-custom-down($interactive-table-bp) {
+      font-size: 18px;
+      text-align: left;
+    }
+    color: $blue-color;
+    font-size: 28px;
+    font-weight: 800;
+    text-align: center;
+    width: 100%;
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    &--justify-center {
+      justify-content: center;
+    }
+
+    &--align-center {
+      align-items: center;
+    }
+
+
+  }
+
+  &__col {
+    @include media-breakpoint-custom-down($interactive-table-bp) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+
+    display: flex;
+    flex: 1;
+    max-width: 100%;
+    width: 100%;
+
+    &:last-child {
+      @include media-breakpoint-custom-down($interactive-table-bp) {
+        border-left: 0;
+        border-top: 1px solid $grey-color;
+
+      }
+      border-left: 1px solid $grey-color;
+    }
+
+    &:first-child {
+      @include media-breakpoint-custom-up($interactive-table-bp) {
+        flex: 0 0 55%;
+        max-width: 55%;
+      }
+      align-items: center;
+      
+    }
+  }
+
+  &--open {
+    .interactive-table-expander__header {
+      background: $green-color;
+    }
+  }
+}
+
+
+.attribute-holder {
+  @include media-breakpoint-custom-down($interactive-table-bp) {
+    display: flex;
+    
+    
+  }
+  width: 100%;
+
+  &__row {
+    @include media-breakpoint-custom-down($interactive-table-bp) {
+      align-items: stretch;
+      flex: 0 0 auto;
+      
+      max-width: 50%;
+      min-height: 100px;
+      padding: 15px;
+
+    }
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    padding: 15px 40px;
+    width: 100%;
+
+    &--flow-left {
+      @include media-breakpoint-custom-down($interactive-table-bp) {
+        flex-direction: row-reverse;
+      }
+    }
+
+    &--flow-right {
+      @include media-breakpoint-custom-up($interactive-table-bp) {
+        flex-direction: row-reverse;
+      }
+      
+    }
+  }
+
+  &__title {
+    @include media-breakpoint-custom-down($interactive-table-bp) {
+
+      align-items: center;
+      display: flex;
+      font-size: 14px;
+    }
+    flex: 0 0 auto;
+    line-height: 1.2;
+    max-width: 60%;
+  }
+
+  &__icon-wrapper {
+    @include media-breakpoint-custom-down($interactive-table-bp) {
+      display: flex;
+      flex: 0 0 40px;
+      justify-content: center;
+      max-width: 40px;
+
+      .angle-icon--left {
+
+        transform: scale(.6) rotateZ(90deg) translateX(-100%);
+        transform-origin: center center;
+      }
+
+      .angle-icon--right {
+        transform: scale(.6) rotateZ(-90deg) translateX(-100%);
+        transform-origin: center center;
+      }
+    }
+    display: flex;
+    flex: 1;
+    max-width: 100%;
+
+    &--right,
+    &--left {
+      position: relative;
+
+      &:before {
+        @include media-breakpoint-custom-down($interactive-table-bp) {
+          bottom: 0;
+          height: auto;
+          left: 50%;
+          right: auto;
+          top: 0;
+          transform: translateX(-50%);
+
+          width: 4px;
+          
+        }
+
+        background: $grey-color;
+        border-radius: 20px;
+
+        content: '';
+        display: block;
+        height: 8px;
+        left: 12px;
+        position: absolute;
+        right: 5px;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+
+    &--right {
+      @include media-breakpoint-custom-down($interactive-table-bp) {
+        align-items: flex-end;
+        justify-content: center;
+      }
+      justify-content: flex-end;
+
+      &:before {
+        background: $grey-color;
+      }
+
+      
+    }
+
+    &--left {
+
+      position: relative;
+
+      &:before {
+        @include media-breakpoint-custom-down($interactive-table-bp) {
+          background: url('#{$image-path}/dotted-pattern-y.png') repeat-y;
+          background-size: 4px;
+        }
+        background: url('#{$image-path}/dotted-pattern.png') repeat-x;
+        background-position: center;
+      }
+    }
+  }
+}
+
+.table-logo-holder {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 100%;
+
+  &__col {
+    border-left: 1px dotted $blue-color;
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+
+
+    &:first-child {
+      border-color: transparent;
+    }
+  }
+
+  &__cell {
+    @include media-breakpoint-custom-down($screen-md) {
+      padding: 20px;
+    }
+
+    align-items: center;
+    border-top: 1px dotted $blue-color;
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    max-height: 100%;
+    padding: 20px 45px;
+    width: 100%;
+
+
+    &:first-child {
+      border-color: transparent;
+    }
+
+    > img {
+      display: block;
+      max-height: 100%;
+      max-width: 100%;
+
+    }
+  }
+}
+
+// Ripple
+[data-ripple] {
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;  
+}
+
+.ripple {
+  background-color: fade-out($white-color, .3);
+  border-radius: 50%;
+  position: absolute;
+  transform: scale(0);
+  z-index: -1;
+}
+

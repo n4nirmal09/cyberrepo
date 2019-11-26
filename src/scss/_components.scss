@@ -1,0 +1,54 @@
+.nav-arrow {
+  display: inline-block;
+  height: 20px;
+  width: 20px;
+
+  &--blue {
+    path {
+      fill: $blue-color;
+    }
+  }
+
+  &--white {
+    path {
+      fill: $white-color;
+    }
+  }
+}
+
+.seperator {
+  border-width: 2px;
+  margin: 20px 0;
+}
+
+.angle-icon {
+  display: inline-block;
+  height: 46px;
+  width: 30px;
+
+  &--blue {
+    stroke: $blue-color;
+  }
+
+  &--grey {
+    stroke: $grey-color;
+  }
+
+  &--right {
+    transform: rotateY(180deg);
+  }
+}
+
+.showmore-icon {
+  display: inline-block;
+  height: 26px;
+  width: 26px;
+
+  &--blue {
+    fill: $blue-color;
+  }
+
+  &--grey {
+    fill: $grey-color;
+  }
+}

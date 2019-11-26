@@ -1,7 +1,15 @@
-#network-stage-section
-	div#network-stage.network-stage
-		div.network-stage__canvas
-			include ../components/network-stage-component.pug
-			div.network-stage__arrows.network-stage__arrows--prev Prev
-			div.network-stage__arrows.network-stage__arrows--next Next
-	.offset
+#network-section
+  header.network-section__header
+    p.network-section__header-title
+      b Agentless and Flexible Deployment:<br>
+      | Centralized architecture for simple and scalable deployment across large distributed networks
+  div#network-stage.network-stage
+    div.network-stage__canvas
+      include ../components/network-stage-component.pug
+      include ../mixins/arrow-mixin.pug
+    div.network-stage__arrow.network-stage__arrow--prev 
+      span.network-stage__arrow-span
+        +nav-arrow('nav-arrow--blue', 'left')
+    div.network-stage__arrow.network-stage__arrow--next
+      span.network-stage__arrow-span
+        +nav-arrow('nav-arrow--blue', 'right')

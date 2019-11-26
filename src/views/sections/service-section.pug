@@ -1,6 +1,14 @@
 #service-section.service-section
-	#service-animation.service-section__animation-canvas
-		include ../mixins/circle-text-mixin.pug
-		+circle-text('Network Assets')
-		+circle-text('Medical IoT<br>Devices')
-		+circle-text('Generic IoT<br>Devices')
+	article.service-section__article
+		h2.service-section__title Visibility and threat prevention for<br>medical devices and clinical assets
+		div.service-section__para
+			p Our scalable, easy-to-deploy security solution works to ensure your organization’s operational safety, compliance and continuity through continuous asset discovery, comprehensive risk profiling, and AI-powered containment and response capabilities. 
+			p The CyberMDX solution identifies endpoints and assesses vulnerabilities to detect, respond to and prevent cyber incidents.
+	.service-chart
+		.service-chart__header
+			h2.service-chart__title We identify, optimize and secure 
+		#service-animation.service-chart__animation-canvas
+			include ../mixins/circle-text-mixin.pug
+			+circle-text('Network Assets')
+			+circle-text('Medical IoT<br>Devices')
+			+circle-text('Generic IoT<br>Devices')

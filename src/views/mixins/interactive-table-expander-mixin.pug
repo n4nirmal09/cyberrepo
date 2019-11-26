@@ -1,0 +1,34 @@
+include ./showmore-icon-mixin.pug
+mixin interactive-table-expander(title, toRightTitle, toLeftTitle, logoArrayA, logoArrayB, active)
+  .interactive-table-expander(class= active ? "interactive-table-expander--open" : "")
+    .interactive-table-expander__header
+      .interactive-table-expander__row
+        .interactive-table-expander__title !{title}
+      .interactive-table-expander__status-icon
+        +showmore("more", "showmore-icon--blue")
+    .interactive-table-expander__content
+      .interactive-table-expander__row
+        .interactive-table-expander__col
+          .attribute-holder
+            if toLeftTitle
+              .attribute-holder__row.attribute-holder__row--flow-left
+                .attribute-holder__icon-wrapper.attribute-holder__icon-wrapper--left
+                  +angle('angle-icon--grey', 'left')
+                .attribute-holder__title !{toLeftTitle}
+            if toRightTitle
+              .attribute-holder__row.attribute-holder__row--flow-right
+                .attribute-holder__icon-wrapper.attribute-holder__icon-wrapper--right
+                  +angle('angle-icon--grey', 'right')
+                .attribute-holder__title !{toRightTitle}
+        .interactive-table-expander__col
+          .table-logo-holder
+            if logoArrayA
+              .table-logo-holder__col
+                each imgSrc in logoArrayA
+                  .table-logo-holder__cell
+                    img(src=imgSrc, alt="")
+            if logoArrayB
+              .table-logo-holder__col
+                each imgSrc in logoArrayB
+                  .table-logo-holder__cell
+                    img(src=imgSrc, alt="")

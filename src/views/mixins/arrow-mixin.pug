@@ -1,0 +1,8 @@
+mixin nav-arrow(color, dir)
+  if dir === "right"
+    svg.nav-arrow.nav-arrow--right(xmlns='http://www.w3.org/2000/svg', viewBox='0 0 18.4 28.1', class= color)
+      path(d='M18.4 14l-3.8 3.9-.3.3-.7.7L9 23.4l-4.8 4.7L0 23.9l4.8-4.8 4.6-4.5.6-.5-.6-.6L4.8 9 0 4.3 4.2 0 9 4.7l4.6 4.5.7.7z')
+  else
+    svg.nav-arrow.nav-arrow--left(xmlns='http://www.w3.org/2000/svg', viewBox='0 0 18.4 28.1', , class= color)
+      path(d='M0 14l3.8 3.9.4.3.6.7 4.6 4.5 4.9 4.7 4.1-4.2-4.8-4.8L9 14.6l-.6-.5.6-.6L13.6 9l4.8-4.7L14.3 0 9.4 4.7 4.8 9.2l-.6.7z')
+

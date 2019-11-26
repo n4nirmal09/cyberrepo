@@ -1,0 +1,7 @@
+mixin angle(color, dir)
+  if dir === "left"
+    svg.angle-icon.angle-icon--left(xmlns='http://www.w3.org/2000/svg', viewBox='0 0 29.1 46.2', class=color)
+      path(fill='none', stroke-width='8.464', stroke-linecap='round', stroke-miterlimit='10', d='M24.9 4.2L6 23.1 24.9 42')
+  else
+    svg.angle-icon.angle-icon--right(xmlns='http://www.w3.org/2000/svg', viewBox='0 0 29.1 46.2', class=color)
+      path(fill='none', stroke-width='8.464', stroke-linecap='round', stroke-miterlimit='10', d='M24.9 4.2L6 23.1 24.9 42')

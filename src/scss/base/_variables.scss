@@ -14,7 +14,16 @@ $screen-xxl: 1440px;
 $screen-xxxl: 1620px;
 $screen-hd: 1920px;
 
+$interactive-table-bp: $screen-sm;
+
 // Colors
 
 $blue-color: #423fae;
 $green-color: #2be9af;
+$grey-color: #bdc1cf;
+$white-color: #fff;
+$inner-circle-fill: #fff;
+$inner-circle-stroke: $blue-color;
+$outer-circle-stroke: $green-color;
+$bullet-color: $green-color;
+$progress-rail-color: $green-color;
