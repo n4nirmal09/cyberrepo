@@ -1,0 +1,143 @@
+// Animation
+
+@keyframes animatedBackground {
+  from {
+    background-position: 0 0;
+  }
+
+  to {
+    background-position: 100% 0;
+  }
+}
+
+// Banner styles
+.bg-img--preload {
+  @include media-breakpoint-custom-down($screen-md) {
+    animation: animatedBackground 20s linear infinite;
+    background-size: 60% auto !important;
+  }
+  animation: animatedBackground 40s linear infinite;
+  background-attachment: scroll !important;
+  background-color: transparent !important;
+  background-image: url('#{$image-path}/preload_pattern.png') !important;
+  background-repeat: repeat !important;
+  background-size: 20% auto !important;
+  
+}
+
+.contain-bg {
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+
+}
+
+.background {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: -1;
+}
+
+.bg-img {
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  width: 100%;
+}
+
+
+.hero-banner {
+  
+
+  &__container {
+    
+    height: calculatevw(980px, 1920px);
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  &__row {
+    align-items: center;
+    display: flex;
+    height: 100%;
+    justify-content: flex-start;
+  }
+
+  &__circle-wrapper {
+    height: 100%;
+    width: 55%;
+
+  }
+
+  
+
+  
+
+  &__circle {
+    height: 100%;
+    width: 100%;
+
+    &-outerpath, 
+    &-innerpath {
+      stroke: $blue-color;
+    }
+
+    &-bullet {
+      fill: $blue-color;
+    }
+  }
+
+  &__title {
+    padding-left: 5px;
+
+    &-h1 {
+      
+      @include media-breakpoint-custom-up($screen-xl) {
+        
+        font-size: calculatevw(65px, 1920px);
+      }
+      @include media-breakpoint-custom-down($screen-sm) {
+        font-size: 22px;
+        line-height: 1.12;
+      }
+      color: $blue-color;
+      line-height: 1;
+    }
+
+    &-line {
+      display: block;
+      overflow: hidden;
+    }
+
+    &-span {
+
+      overflow: hidden;
+    }
+
+    &-span, 
+    &-word {
+      @include media-breakpoint-custom-down($screen-sm) {
+        display: block;
+      }
+
+      display: inline-block;
+    }
+  }
+}
+
+.bg-mask {
+  align-items: center;
+  display: flex;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  transition: all .6s ease;
+  width: 100%;
+}
+

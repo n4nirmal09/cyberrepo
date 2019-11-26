@@ -1,5 +1,6 @@
 import { utilities } from './utilities'
 import { settings } from './settings'
+import { swipe } from './swipedirection'
 
 (function($, window) {
     "use strict"
@@ -425,7 +426,8 @@ import { settings } from './settings'
             let scene = new ScrollMagic.Scene({
                     triggerElement: this.container,
                     duration: 0,
-                    triggerHook: this.options.triggerHook
+                    triggerHook: this.options.triggerHook,
+                    offset: -100
                 })
                 .setTween(this.tl)
                 .on('enter', () => {
@@ -438,7 +440,8 @@ import { settings } from './settings'
             let viewFocus = new ScrollMagic.Scene({
                     triggerElement: this.container,
                     duration: this.container.getBoundingClientRect().height,
-                    triggerHook: this.options.triggerHook
+                    triggerHook: this.options.triggerHook,
+                    offset: -100
                 })
                 .on('enter', () => {
                     this.onFocus = true
@@ -514,7 +517,18 @@ import { settings } from './settings'
 
             // Room for mobile specific and other circle hover animation
             if("ontouchstart" in document.documentElement) {
-            	// mobile specific
+
+                if(this.options.touchSupport) {
+
+                    swipe.registerSwipe(this.container.querySelector('.network-stage__canvas'), (rightSwipe) => {
+                        if(rightSwipe) {
+                            this.timelinePrev()
+                        } else {
+                            this.timelineNext()
+                        }
+                    })
+                }
+            	
             } else {
             	let circles = this.container.querySelectorAll('.active-icon-a, .active-icon-b')
             	circles.forEach((circle, i) => {
@@ -550,7 +564,8 @@ import { settings } from './settings'
         repeat: false,
         repeatDelay: 1,
         stageTransitionDelay: 1,
-        triggerHook: "onCenter"
+        triggerHook: "onCenter",
+        touchSupport: false
     }
 
     new NetworkStage(document.querySelector('#network-stage'))

@@ -18,22 +18,50 @@ import { settings } from './settings'
             this.currentProgressPosition = 0
 
             this.init()
+            //this.reInitOnResize()
         }
 
         init() {
             gsap.registerPlugin(DrawSVGPlugin)
-            this.createMainRail()
+            if(window.innerWidth >= 576) this.createMainRail()
             this.initServiceBoxes()
-            this.mainTimelineCreation()
+            if(window.innerWidth < 576) {
+                this.mobileTimelineCreation()
+            } else {
+                this.mainTimelineCreation()
+            }
+            
+            // Listeners
             this.scrollListener()
+            
         }
 
         initServiceBoxes() {
             gsap.set(this.container.querySelectorAll('.service-circle__outer-path--a'), { drawSVG: "0% 0%", rotation: -180, transformOrigin: "50% 50%" })
             gsap.set(this.container.querySelectorAll('.service-circle__outer-path--b'), { drawSVG: "100% 100%", rotation: 180, transformOrigin: "50% 50%" })
             gsap.set(this.container.querySelectorAll('.service-box__title'), { autoAlpha: 0.2 })
-            gsap.set(this.container.querySelectorAll('.service-circle__bullet--a, .service-circle__bullet--b'), { autoAlpha: 0 })
+            gsap.set(this.container.querySelectorAll('.service-circle__bullet--a, .service-circle__bullet--b'), { autoAlpha: 0, rotation: 0})
             gsap.set(this.container, { autoAlpha: 1 })
+        }
+
+        reset() {
+            // gsap.killTweensOf([this.container.querySelectorAll('.service-circle__outer-path--a'), 
+            //     this.container.querySelectorAll('.service-circle__outer-path--b'),
+            //     this.container.querySelectorAll('.service-box__title'),
+            //     this.container.querySelectorAll('.service-circle__bullet--a'),
+            //     this.container.querySelectorAll('.service-circle__bullet--b'),
+            //     this.container])
+            if(this.container.querySelector('.progress-rail')) {
+                this.container.removeChild(this.container.querySelector('.progress-rail'))
+            }
+            this.tl.kill()
+            this.tl = null
+            this.scrollController = null
+            this.progressPosition = 0
+            this.progressTravelPosition = 0
+            this.progressDuration = 0
+            this.currentProgressPosition = 0
+
         }
 
         createMainRail() {
@@ -74,6 +102,7 @@ import { settings } from './settings'
         }
 
         mainTimelineCreation() {
+
             this.tl = gsap.timeline({
                 delay: 0.5
             })
@@ -93,6 +122,27 @@ import { settings } from './settings'
             }, 'end')
 
 
+        }
+
+        mobileTimelineCreation() {
+
+            this.tl = gsap.timeline({
+                delay: 0.5
+            })
+
+            this.tl.staggerFrom(this.serviceBoxes, 0.5, {y: 200, autoAlpha: 0}, 0.1, 'start')
+
+            this.serviceBoxes.forEach((serviceBox, i) => {
+                this.tl.to(serviceBox.querySelector('.service-circle__outer-path--a'), {
+                    duration: 0.8,
+                    drawSVG: "0% 100%",
+                    rotation: 0
+                }, 'active-mobile-' + i)
+                .to(serviceBox.querySelector('.service-box__title'), {
+                    duration: 0.5,
+                    autoAlpha: 1
+                }, 'active-mobile-' + i+'+=0.4')
+            })
         }
 
         boxTimeline(serviceBox, i) {
@@ -150,13 +200,13 @@ import { settings } from './settings'
         		}, 0)
         		.to(bulletA, {
         			duration: this.options.circleDrawDuration,
-        			svgOrigin: parentBox.getBoundingClientRect().width/2 + ' ' + parentBox.getBoundingClientRect().width/2,
+        			svgOrigin: '150px 150px',
         			rotation: 180,
         			ease: 'none'
         		}, 0)
         		.to(bulletB, {
         			duration: this.options.circleDrawDuration,
-        			svgOrigin: parentBox.getBoundingClientRect().width/2 + ' ' + parentBox.getBoundingClientRect().width/2,
+        			svgOrigin: '150px 150px',
         			rotation: -180,
         			ease: 'none'
         		}, 0)
@@ -169,6 +219,7 @@ import { settings } from './settings'
         		return tl
         }
 
+        // Event listeners
         scrollListener() {
         	this.scrollController = new ScrollMagic.Controller()
         	let revealScene = new ScrollMagic.Scene({
@@ -180,6 +231,16 @@ import { settings } from './settings'
         	.addTo(this.scrollController)
         }
 
+        // ReInit
+        reInitOnResize() {
+            let resize = utilities.debounce(()=> {
+                this.reset()
+                this.init()
+            }, 250)
+
+            window.addEventListener('resize', resize)
+        }
+
     }
 
     ServiceAnim.defaults = {
@@ -187,6 +248,6 @@ import { settings } from './settings'
     	progressPixelDistance: 50
     }
 
-    new ServiceAnim(document.querySelector('#service-animation'))
+    window.TL = new ServiceAnim(document.querySelector('#service-animation'))
 
 })(jQuery, window)
