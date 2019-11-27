@@ -229,6 +229,8 @@ import { settings } from './settings'
         	})
         	.setTween(this.tl)
         	.addTo(this.scrollController)
+
+            revealScene.reverse(this.options.reverse)
         }
 
         // ReInit
@@ -245,7 +247,8 @@ import { settings } from './settings'
 
     ServiceAnim.defaults = {
     	circleDrawDuration: 0.7,
-    	progressPixelDistance: 50
+    	progressPixelDistance: 50,
+        reverse: false
     }
 
     window.TL = new ServiceAnim(document.querySelector('#service-animation'))

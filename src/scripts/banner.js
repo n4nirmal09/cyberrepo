@@ -33,7 +33,7 @@ import { settings } from './settings'
                     } else {
                         img.on('load', () => {
                                 giveImage(loadingSrc, figure);
-                                if(!bannerAnimationPlayed) banners.bannerAnimation() // For animation set
+                                if (!bannerAnimationPlayed) banners.bannerAnimation() // For animation set
                                 bannerAnimationPlayed = true
                             })
                             .on('error', function() {
@@ -68,12 +68,12 @@ import { settings } from './settings'
 
         bannerAnimation() {
             let heroBannerContainer = document.querySelector('.hero-banner__container'),
-            outerPath = document.querySelector('.hero-banner__circle-outerpath'),
-            innerPath = document.querySelector('.hero-banner__circle-innerpath'),
-            bullet = document.querySelector('.hero-banner__circle-bullet'),
-            words = document.querySelectorAll('.hero-banner__title-word'),
-            tl = null
-            
+                outerPath = document.querySelector('.hero-banner__circle-outerpath'),
+                innerPath = document.querySelector('.hero-banner__circle-innerpath'),
+                bullet = document.querySelector('.hero-banner__circle-bullet'),
+                words = document.querySelectorAll('.hero-banner__title-word'),
+                tl = null
+
             setAnimation()
 
             function setAnimation() {
@@ -86,7 +86,7 @@ import { settings } from './settings'
                 })
             }
 
-            
+
 
             gsap.set(bullet, {
                 xPercent: -50,
@@ -98,33 +98,60 @@ import { settings } from './settings'
                 delay: 1
             })
             tl.fromTo(outerPath, {
-                drawSVG: "0% 0%"
-            }, {
-                duration: 1,
-                drawSVG: "0% 50%",
-                ease: "power2.out"
-            })
-            .to(bullet, {
-                duration: 1,
-                motionPath: {
-                    path: innerPath,
-                    align: innerPath,
-                    start: 0,
-                    end: 0.48
-                },
-                ease: "power2.out"
-            }, 0)
-            .from(words, {
+                    drawSVG: "0% 0%"
+                }, {
+                    duration: 1,
+                    drawSVG: "0% 50%",
+                    ease: "power2.out"
+                })
+                .to(bullet, {
+                    duration: 1,
+                    motionPath: {
+                        path: innerPath,
+                        align: innerPath,
+                        start: 0,
+                        end: 0.48
+                    },
+                    ease: "power2.out"
+                }, 0)
+                .from(words, {
+                    duration: 0.5,
+                    stagger: 0.05,
+                    yPercent: 100
+                }, 0.5)
+
+
+
+        },
+
+        parallax() {
+            let heroBanner = document.querySelector('.hero-banner'),
+                background = heroBanner.querySelector('.background'),
+                content = heroBanner.querySelector('.hero-banner__row'),
+                duration = "400%",
+                hook = "onLeave",
+                triggerElement = heroBanner,
+                scrollController = new ScrollMagic.Controller()
+
+
+
+            let tween = gsap.to(background, {
                 duration: 0.5,
-                stagger: 0.05,
-                yPercent: 100
-            }, 0.5)
-
-
-
+                y: "100%",
+                rotation: 0.002
+            })
+            let scene = new ScrollMagic.Scene({
+                    triggerElement: triggerElement,
+                    triggerHook: hook,
+                    reverse: true,
+                    duration: duration
+                })
+                .setTween(tween)
+                .addTo(scrollController);
         }
     }
 
     banners.lazyLoading()
+    banners.parallax()
 
 })(jQuery, window)

@@ -1,0 +1,62 @@
+include ../mixins/slide-mixin.pug
+include ../mixins/arrow-mixin.pug
+#how-it-works-section
+  div.how-it-works-section__header
+    h2.how-it-works-section__title How it works
+  div.how-it-works-section__carousel
+    div#steps-slider
+      .steps-slider__list
+        +slide-mixin('Percieve', {
+        imgSrc: require('images/dash-slide-1.png'),
+        articles:[{
+            title: 'Asset discovery and classification',
+            listItem:['Continuous auto discovery and classification  of connected medical devices',
+            'Inventory correlation with CMMS systems']
+          }, {
+            title: 'Asset Management',
+            listItem:['Live inventory of all discovered medical device, IoT and IoMT assets',
+            'Integration with NAC systems for sharing asset inventory']
+          }, {
+            title: 'Asset Visibility',
+            listItem:['Granular understanding of device behavior,  abnormalities, and risk profile',
+            'Network profiling and visibility into traffic   flows and communication patterns between  related assets',
+            'Real-time tracking of changes in asset inventory ']
+          }]
+        })
+        +slide-mixin('Prevent', {
+        imgSrc: require('images/dash-slide-2.png'),
+        articles:[{
+            title: 'Risk assessment and security insights',
+            listItem:['Real-time monitoring and threat alerting ',
+            'dentification of traffic anomalies and unrecognized behavior', 
+            'Malicious activity and anomaly detection',
+            'Push-alerts through SIEM integration',
+            'Drill-down of attacks for granular analysis',
+            'Incident ticketing for workflow management system responses',
+            'Threat analysis via our dedicated  cloud-based center',
+            'Attack response via quarantine (based on CoA)']
+          }, {
+            title: 'Threat detection and attack prevention',
+            listItem:['Algorithmically-built security groups through   micro-segmentation',
+            'NAC integration with Cisco ISE, Forescout   CounterACT. Aruba ClearPass',
+            'Automatic formation of security policy',
+            'VLAN reassignment and/or dACLs for specific   device shielding']
+          }]
+        })
+        +slide-mixin('Plan', {
+        imgSrc: require('images/dash-slide-3.png'),
+        articles:[{
+            title: '',
+            listItem:['Operational insights, troubleshooting and   device optimization',
+            'Predictive maintenance processes supported  by device utilization reports',
+            'DICOM insights and statistics about imaging device utilization profiles',
+            'Lifecycle management to optimize maintenance and patching processes']
+          }]
+        })
+      nav.steps-slider__nav
+        .steps-slider__nav-arrow.steps-slider__nav-arrow--prev 
+          span.steps-slider__nav-arrow-span
+            +nav-arrow('nav-arrow--white', 'left')
+        .steps-slider__nav-arrow.steps-slider__nav-arrow--next
+          span.steps-slider__nav-arrow-span
+            +nav-arrow('nav-arrow--white', 'right')

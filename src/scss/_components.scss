@@ -17,8 +17,21 @@
 }
 
 .seperator {
-  border-width: 2px;
+  border: 0;
+  border-top: 2px solid;
   margin: 20px 0;
+
+  &--blue {
+    border-color: $blue-color;
+  }
+}
+
+.section-seperator {
+  @include media-breakpoint-custom-down($screen-sm) {
+    margin: 40px auto;
+  }
+  @include layout-container();
+  margin: 80px auto;
 }
 
 .angle-icon {

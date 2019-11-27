@@ -1,6 +1,24 @@
+.interactive-table-section {
+  &__header {
+    @include layout-container();
+
+  }
+
+  &__title {
+    @include header-font();
+    color: $blue-color;
+    text-align: center;
+  }
+}
 
 .interactive-table {
+  @include media-breakpoint-custom-down($screen-sm) {
+    margin-bottom: 40px;
+    margin-top: 20px;
+  }
   @include layout-container();
+  margin-bottom: 80px;
+  margin-top: 40px;
 
   &__wrapper {
     border: 1px solid $blue-color;

@@ -11,6 +11,14 @@
     text-align: center;
   }
 
+  &__chart {
+    @include media-breakpoint-custom-down($screen-sm) {
+      padding-bottom: 40px;
+    }
+
+    padding-bottom: 80px;
+  }
+
   &__title {
     @include header-font();
     color: $blue-color;

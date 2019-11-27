@@ -140,3 +140,28 @@
   }
   
 }
+
+@mixin body-font() {
+  @include media-breakpoint-custom-down($screen-lg) {
+    font-size: 16px;
+  }
+  @include media-breakpoint-custom-down($screen-sm) {
+    font-size: 12px;
+  }
+
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 1.12;
+  
+
+  p {
+    @include media-breakpoint-custom-down($screen-sm) {
+      margin-bottom: 10px;
+      margin-top: 10px;
+    }
+
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+}

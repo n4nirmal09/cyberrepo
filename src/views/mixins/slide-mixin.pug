@@ -1,0 +1,16 @@
+mixin slide-mixin(mainTitle, options)
+  div.steps-slide(data-title=mainTitle)
+      div.steps-slide__row
+        div.steps-slide__col.steps-slide__col--figure-col
+          figure.steps-slide__figure
+            img(src=options.imgSrc, alt="")
+        div.steps-slide__col.steps-slide__col--text-col
+          each article in options.articles
+            article.steps-slide__article
+              if article.title
+                h3.steps-slide__article-title 
+                  b !{article.title}
+              ul.steps-slide__article-list
+                each item in article.listItem
+                  li !{item}
+          
