@@ -42,16 +42,15 @@ import { settings } from './settings'
                 textSpan.classList.add('steps-slider__pagination-item-text')
                 textSpan.innerHTML = slide.dataset.title
 
-                navItem.append(numberSpan)
-                navItem.append(textSpan)
+                navItem.appendChild(numberSpan)
+                navItem.appendChild(textSpan)
 
                 navItem.addEventListener('click', (e) => {
                     e.preventDefault()
-                    console.log('poda')
                     this.sliderGoto(e, i)
                 })
 
-                pageDiv.append(navItem)
+                pageDiv.appendChild(navItem)
             })
 
             this.container.prepend(pageDiv)

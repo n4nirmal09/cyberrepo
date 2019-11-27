@@ -81,30 +81,30 @@ import { settings } from './settings'
                 gsap.registerPlugin(MotionPathPlugin)
 
                 gsap.to(heroBannerContainer, {
-                    duration: 0.5,
+                    duration: 1,
                     autoAlpha: 1
                 })
             }
 
-
-
-            gsap.set(bullet, {
-                xPercent: -50,
-                yPercent: -50,
-                transformOrigin: "50% 50%"
-            })
-
             tl = gsap.timeline({
                 delay: 1
             })
+
             tl.fromTo(outerPath, {
-                    drawSVG: "0% 0%"
+                    drawSVG: "0% 0%",
                 }, {
                     duration: 1,
                     drawSVG: "0% 50%",
-                    ease: "power2.out"
+                    ease: "power2.out",
+                    overwrite: 'all'
                 })
-                .to(bullet, {
+            if(utilities.isIE() > 11 || !utilities.isIE()) {
+                gsap.set(bullet, {
+                    xPercent: -50,
+                    yPercent: -50,
+                    transformOrigin: "50% 50%"
+                })
+                tl.to(bullet, {
                     duration: 1,
                     motionPath: {
                         path: innerPath,
@@ -112,9 +112,15 @@ import { settings } from './settings'
                         start: 0,
                         end: 0.48
                     },
+                    overwrite: 'all',
                     ease: "power2.out"
                 }, 0)
-                .from(words, {
+            } else { // For Less than IE11 because motion path align issue for circle
+                gsap.set(bullet, {autoAlpha: 0, x: 50.2244, y: 390.0392})
+                tl.to(bullet,{duration: 0.5, autoAlpha: 1}, 0.5)
+            }
+                
+                tl.from(words, {
                     duration: 0.5,
                     stagger: 0.05,
                     yPercent: 100
@@ -131,27 +137,50 @@ import { settings } from './settings'
                 duration = "400%",
                 hook = "onLeave",
                 triggerElement = heroBanner,
-                scrollController = new ScrollMagic.Controller()
+                outerPath = document.querySelector('.hero-banner__circle-outerpath'),
+                innerPath = document.querySelector('.hero-banner__circle-innerpath'),
+                bullet = document.querySelector('.hero-banner__circle-bullet'),
+                words = document.querySelectorAll('.hero-banner__title-word'),
+                scrollController = new ScrollMagic.Controller(),
+                tl = gsap.timeline()
 
 
 
-            let tween = gsap.to(background, {
-                duration: 0.5,
-                y: "100%",
-                rotation: 0.002
-            })
+            tl.to(background, {
+                    duration: 0.5,
+                    y: "100%",
+                    rotation: 0.002
+                })
+                // .to(outerPath, {
+                //     duration: 1,
+                //     drawSVG: "50% 100%",
+                //     ease: "power2.out",
+                // }, 0)
+                // .to(bullet, {
+                //     duration: 1,
+                //     motionPath: {
+                //         path: innerPath,
+                //         align: innerPath,
+                //         start: 0.48,
+                //         end: 1
+                //     },
+                //     ease: "power2.out"
+                // }, 0)
             let scene = new ScrollMagic.Scene({
                     triggerElement: triggerElement,
                     triggerHook: hook,
                     reverse: true,
                     duration: duration
                 })
-                .setTween(tween)
+                .setTween(tl)
                 .addTo(scrollController);
         }
     }
 
     banners.lazyLoading()
-    banners.parallax()
+    if(!utilities.isIE()) {
+        banners.parallax()
+    }
+    
 
 })(jQuery, window)
