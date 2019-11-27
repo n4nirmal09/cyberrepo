@@ -90,12 +90,16 @@
 // Container mixin 
 
 @mixin layout-container() {
+  @include media-breakpoint-custom-down($screen-sm) {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
   display: block;
   margin-left: auto;
   margin-right: auto;
-  max-width: 1200px;
-  padding-left: 20px;
-  padding-right: 20px;
+  max-width: $container-max-width;
+  padding-left: 40px;
+  padding-right: 40px;
 }
 
 

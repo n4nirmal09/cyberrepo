@@ -124,7 +124,7 @@ import { settings } from './settings'
                     duration: 0.5,
                     stagger: 0.05,
                     yPercent: 100
-                }, 0.5)
+                }, 0.8)
 
 
 
