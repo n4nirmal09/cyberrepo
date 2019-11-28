@@ -84,7 +84,10 @@ export const utilities = {
                         delay: delay,
                         y: 50,
                         stagger: staggerOffset,
-                        autoAlpha: 0
+                        autoAlpha: 0,
+                        onComplete: function() {
+                            gsap.set($(elem).find('>*'), {clearProps: 'transform'})
+                        }
                     })
                     break
                 default:

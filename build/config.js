@@ -15,7 +15,7 @@ module.exports = {
 	build: {
 		assetsRoot: path.resolve(__dirname, '../dist'),
 	    assetsSubDirectory: '',
-	    assetsPublicPath: '/clients/earnest/cybermdx/',
+	    assetsPublicPath: './',
 	    cssSourceMap: false
 	}
 }
