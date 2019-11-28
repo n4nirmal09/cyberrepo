@@ -181,6 +181,9 @@ import { settings } from './settings'
     if(!utilities.isIE()) {
         banners.parallax()
     }
+
+    // for banner reveals - all elements
+    utilities.detectAnimation()
     
 
 })(jQuery, window)

@@ -9,3 +9,8 @@
 @import './how-it-works-section';
 @import './benefits-banner';
 @import './hero-banner';
+
+.detect-animate {
+  opacity: 0;
+  visibility: hidden;
+}

@@ -129,12 +129,18 @@
     width: 30%;
 
     &--prev {
+      @include media-breakpoint-custom-down($container-max-width) {
+        left: 20px;
+      }
       justify-content: flex-start;
       left: 0;
 
     }
 
     &--next {
+      @include media-breakpoint-custom-down($container-max-width) {
+        right: 20px;
+      }
       justify-content: flex-end;
       left: auto;
       right: 0;

@@ -42,5 +42,60 @@ export const utilities = {
         // other browser
         return false;
 
+    },
+
+    // detect animation on scroll
+    detectAnimation(elems) {
+        let controller = new ScrollMagic.Controller()
+        var elems = elems || $('.detect-animate')
+        elems.each(function() {
+
+            var elem = this
+            var triggerElem = $(elem).data('trigger') ? $(elem).data('trigger') : elem
+            var elementAnimation = $(elem).data('animation')
+            var delay = $(elem).data('delay') ? $(elem).data('delay') : 0
+            var speed = $(elem).data('speed') ? $(elem).data('speed') : 1
+            var hook = $(elem).data('hook') ? $(elem).data('hook') : 'onEnter'
+            var offset = $(elem).data('offset') || 200
+            var tween = ''
+            var duration = 0
+            var reverse = ($(elem).data('reverse') === false) ? false : true
+            var staggerOffset = 0.1
+            var ease = $(elem).data('ease') ? $(elem).data('ease') : Power2.easeOut
+
+            TweenLite.set(elem, { autoAlpha: 1 })
+
+            if (window.innerWidth <= 1024) offset = 5
+
+            switch (elementAnimation) {
+                case "from-bottom":
+                    tween = gsap.from(elem, {
+                        duration: speed,
+                        ease: ease,
+                        delay: delay,
+                        y: 50,
+                        autoAlpha: 0
+                    })
+                    break
+                case "from-bottom--stagger":
+                    tween = gsap.from($(elem).find('>*'), {
+                        duration: speed,
+                        ease: ease,
+                        delay: delay,
+                        y: 50,
+                        stagger: staggerOffset,
+                        autoAlpha: 0
+                    })
+                    break
+                default:
+                    tween = ''
+            };
+
+            new ScrollMagic.Scene({ triggerElement: triggerElem, triggerHook: hook, offset: offset, duration: duration, reverse: false })
+                .setTween(tween)
+                .addTo(controller)
+
+
+        })
     }
 }

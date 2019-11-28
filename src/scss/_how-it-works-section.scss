@@ -41,14 +41,14 @@
     width: 40px;
 
     &--prev {
-      @include media-breakpoint-custom-down($screen-sm) {
+      @include media-breakpoint-custom-down($container-max-width) {
         left: 20px;
       }
       left: 0;
     }
 
     &--next {
-      @include media-breakpoint-custom-down($screen-sm) {
+      @include media-breakpoint-custom-down($container-max-width) {
         right: 20px;
       }
 
