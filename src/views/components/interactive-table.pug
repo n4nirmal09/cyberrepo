@@ -5,20 +5,22 @@ include ../mixins/interactive-table-expander-mixin.pug
     .interactive-table__header
       .interactive-table__row
         .interactive-table__col.interactive-table__col--full.interactive-table__col--justify-center.interactive-table__col--align-center
-          img(src=require("images/logos/mdx-logo.png"), alt="")
+          div.interactive-table__header-cell
+            img(src=require("images/logos/mdx-logo.png"), alt="")
+            h5.interactive-table__header-title Open RESTful API
     .interactive-table__body
       .interactive-table__row
         .interactive-table__col.interactive-table__col--full
-          +interactive-table-expander("Security Alerts","Alerts", "", [require('images/logos/splunk-logo.png'), require('images/logos/arc-logo.png')], [require('images/logos/mcafee-logo.png'), require('images/logos/ibm-logo.png')], true)
+          +interactive-table-expander("Security Alerts","Alerts", "", [require('images/logos/splunk-logo.svg'), require('images/logos/arc-logo.png')], [require('images/logos/mcafee-logo.svg'), require('images/logos/ibm-logo.png')], true)
       .interactive-table__row
         .interactive-table__col.interactive-table__col--full
           +interactive-table-expander("CMMS","Device attributes e.g. MAC address, risk level, Work order creation based on alert", "Data correlation", [require('images/logos/nuvolo-logo.png')], [require('images/logos/aims-logo.png')])
       .interactive-table__row
         .interactive-table__col.interactive-table__col--full
-          +interactive-table-expander("Network Access Control","Device type, make and model SGs and SG-ACLs", "Device generic attributes<br>Current TrustSec policy", [require('images/logos/cisco-logo.png'), require('images/logos/aruba-logo.png')], [require('images/logos/fore-logo.png')])
+          +interactive-table-expander("Network Access Control","Device type, make and model<br>SGs and SG-ACLs", "Device generic attributes<br>Current TrustSec policy", [require('images/logos/cisco-logo.png'), require('images/logos/aruba-logo.svg')], [require('images/logos/fore-logo.svg')])
       .interactive-table__row
         .interactive-table__col.interactive-table__col--full
-          +interactive-table-expander("Firewall classification","Tag, Policies", "", [require('images/logos/checkpoint-logo.png')], [require('images/logos/palo-logo.png')])
+          +interactive-table-expander("Firewall classification","Tag, Policies", "", [require('images/logos/checkpoint-logo.png')], [require('images/logos/palo-logo.svg')])
       .interactive-table__row
         .interactive-table__col.interactive-table__col--full
-          +interactive-table-expander("CMDB and Workflow Management","Inventory to CMDB<br>Alert > ticket in ITSM", "Ticket Status", [require('images/logos/service-now-logo.png')])
+          +interactive-table-expander("CMDB and Workflow Management","Inventory to CMDB<br>Alert > ticket in ITSM", "Ticket Status", [require('images/logos/service-now-logo.svg')])

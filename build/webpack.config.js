@@ -117,25 +117,25 @@ module.exports = env => {
                     }]
                 },
                 {
-                    test: /\.(png|jpe?g|gif|ico)(\?.*)?$/,
+                    test: /\.(png|jpe?g|gif|ico|svg)(\?.*)?$/,
                     loader: 'url-loader',
                     options: {
                         limit: 3000,
                         name: 'images/[name].[hash:7].[ext]'
                     }
                 },
-                {
-                    test: /\.svg$/,
-                    use: [{
-                            loader: 'svg-sprite-loader',
-                            options: {
-                                //extract: true,
-                                spriteFilename: 'images/icons.svg'
-                            }
-                        },
-                        'svgo-loader'
-                    ]
-                },
+                // {
+                //     test: /\.svg$/,
+                //     use: [{
+                //             loader: 'svg-sprite-loader',
+                //             options: {
+                //                 //extract: true,
+                //                 spriteFilename: 'images/icons.svg'
+                //             }
+                //         },
+                //         'svgo-loader'
+                //     ]
+                // },
                 {
                     test: /\.(woff2?|eot|ttf|otf)(\?.*)?$/,
                     loader: 'url-loader',
@@ -199,9 +199,9 @@ module.exports = env => {
                 inject: true
             }),
             ...utils.pages(env),
-            new SpriteLoaderPlugin({
-                plainSprite: true
-            }),
+            // new SpriteLoaderPlugin({
+            //     plainSprite: true
+            // }),
             new SassLintPlugin(),
             // new webpack.ProvidePlugin({
             //     $: 'jquery',

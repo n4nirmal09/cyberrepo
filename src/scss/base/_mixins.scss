@@ -90,16 +90,25 @@
 // Container mixin 
 
 @mixin layout-container() {
+  @include media-breakpoint-custom-down($screen-hd) {
+    max-width: $container-max-width-laptops;
+  }
+
+  @include media-breakpoint-custom-down($screen-lg) {
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
   @include media-breakpoint-custom-down($screen-sm) {
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 40px;
+    padding-right: 40px;
   }
   display: block;
   margin-left: auto;
   margin-right: auto;
   max-width: $container-max-width;
-  padding-left: 40px;
-  padding-right: 40px;
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
 
@@ -114,43 +123,17 @@
     font-size: 18px;
   }
 
-  font-size: 45px;
+  font-size: 40px;
   font-weight: 400;
   line-height: 1.12;
 }
 
 @mixin featured-font() {
   @include media-breakpoint-custom-down($screen-lg) {
-    font-size: 18px;
+    font-size: 20px;
   }
   @include media-breakpoint-custom-down($screen-sm) {
-    font-size: 14px;
-  }
-
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 1.12;
-  
-
-  p {
-    @include media-breakpoint-custom-down($screen-sm) {
-      margin-bottom: 10px;
-      margin-top: 15px;
-    }
-
-    font-size: inherit;
-    font-weight: inherit;
-    line-height: inherit;
-  }
-  
-}
-
-@mixin body-font() {
-  @include media-breakpoint-custom-down($screen-lg) {
     font-size: 16px;
-  }
-  @include media-breakpoint-custom-down($screen-sm) {
-    font-size: 12px;
   }
 
   font-size: 25px;
@@ -168,4 +151,30 @@
     font-weight: inherit;
     line-height: inherit;
   }
+}
+
+@mixin body-font() {
+  @include media-breakpoint-custom-down($screen-lg) {
+    font-size: 18px;
+  }
+  @include media-breakpoint-custom-down($screen-sm) {
+    font-size: 14px;
+  }
+
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.12;
+  
+
+  p {
+    @include media-breakpoint-custom-down($screen-sm) {
+      margin-bottom: 10px;
+      margin-top: 15px;
+    }
+
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+  }
+  
 }

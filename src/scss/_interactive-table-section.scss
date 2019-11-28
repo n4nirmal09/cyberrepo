@@ -29,6 +29,11 @@
     background: $blue-color;
     color: $white-color;
     padding: 20px;
+
+    &-title {
+      margin: 15px 0 0;
+      text-align: center;
+    }
   }
 
   &__row {
@@ -66,7 +71,7 @@
     }
     cursor: pointer;
     overflow: hidden;
-    padding: 25px 20px;
+    padding: 30px 20px;
     position: relative;
     text-align: center;
     transition: ease .4s;
@@ -90,13 +95,14 @@
   }
 
   &__title {
+    @include featured-font();
     @include media-breakpoint-custom-down($interactive-table-bp) {
-      font-size: 18px;
       text-align: left;
     }
     color: $blue-color;
-    font-size: 28px;
+    
     font-weight: 800;
+    line-height: 1.12;
     text-align: center;
     width: 100%;
   }
@@ -203,8 +209,9 @@
       font-size: 14px;
     }
     flex: 0 0 auto;
+    font-size: 18px;
     line-height: 1.2;
-    max-width: 60%;
+    max-width: 65%;
   }
 
   &__icon-wrapper {
@@ -251,7 +258,7 @@
 
         content: '';
         display: block;
-        height: 8px;
+        height: 6px;
         left: 12px;
         position: absolute;
         right: 5px;
@@ -285,6 +292,7 @@
         }
         background: url('#{$image-path}/dotted-pattern.png') repeat-x;
         background-position: center;
+        background-size: 12px;
       }
     }
   }
@@ -316,10 +324,10 @@
     align-items: center;
     border-top: 1px dotted $blue-color;
     display: flex;
-    flex: 1;
+    flex: 1 1 auto;
     justify-content: center;
     max-height: 100%;
-    padding: 20px 45px;
+    padding: 20px 36px;
     width: 100%;
 
 

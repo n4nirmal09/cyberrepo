@@ -65,7 +65,16 @@
     text-align: center;
 
     &-title {
-      @include header-font();
+
+      &-h2, 
+      &-para {
+        @include header-font();
+      }
+
+      &-para {
+        margin: 0;
+      }
+      
       color: $blue-color;
       margin-bottom: 0;
       margin-top: 0;

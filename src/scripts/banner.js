@@ -146,7 +146,7 @@ import { settings } from './settings'
 
 
 
-            tl.to(background, {
+            tl.to([background, content], {
                     duration: 0.5,
                     y: "100%",
                     rotation: 0.002
