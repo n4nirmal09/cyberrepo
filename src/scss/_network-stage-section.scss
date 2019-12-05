@@ -53,6 +53,15 @@
       stroke: none;
     }
   }
+
+  .network-stage__label {
+    text {
+      fill: $grey-color;
+      font-size: 25px;
+      letter-spacing: 2px;
+
+    }
+  }
 }
 
 .network-section {
@@ -123,7 +132,7 @@
 
   &__label {
     opacity: 0;
-    transform: translateX(-20px) translateY(-20px);
+    transform: translateX(20px) translateY(-20px);
     visibility: hidden;
 
   }
