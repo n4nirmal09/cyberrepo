@@ -44,14 +44,14 @@ import { swipe } from './swipedirection'
 
             this.tl.add(this.revealAnimation(), 'reveal')
                 .add('stage-1', 1)
-                .add(this.stage1AnimationReveal().timeScale(1.4), 'stage-1')
-                .add(this.stage1AnimationClose().timeScale(1.4), 'stage-1-close')
+                .add(this.stage3AnimationReveal().timeScale(1.4), 'stage-1')
+                .add(this.stage3AnimationClose().timeScale(1.4), 'stage-1-close')
                 .add('stage-2', 'stage-1-close+=0.6')
                 .add(this.stage2AnimationReveal().timeScale(1.4), 'stage-2')
                 .add(this.stage2AnimationClose().timeScale(1.4), 'stage-2-close')
                 .add('stage-3', 'stage-2-close+=0.6')
-                .add(this.stage3AnimationReveal().timeScale(1.4), 'stage-3')
-                .add(this.stage3AnimationClose().timeScale(1.4), 'stage-3-close')
+                .add(this.stage1AnimationReveal().timeScale(1.4), 'stage-3')
+                .add(this.stage1AnimationClose().timeScale(1.4), 'stage-3-close')
                 .add('end')
 
         }
@@ -485,7 +485,7 @@ import { swipe } from './swipedirection'
         // Event listeners
         addEventListeners() {
 
-        		// Navitems
+            // Navitems
             this.navNext.addEventListener('click', () => {
                 this.timelineNext()
             })
@@ -513,45 +513,49 @@ import { swipe } from './swipedirection'
             })
 
             // Parallax - not completed
-            if(this.options.parallax) this.container.addEventListener("mousemove", this.parallaxOvers)
+            if (this.options.parallax) this.container.addEventListener("mousemove", this.parallaxOvers)
 
             // Room for mobile specific and other circle hover animation
-            if("ontouchstart" in document.documentElement) {
+            if ("ontouchstart" in document.documentElement) {
 
-                if(this.options.touchSupport) {
+                if (this.options.touchSupport) {
 
                     swipe.registerSwipe(this.container.querySelector('.network-stage__canvas'), (rightSwipe) => {
-                        if(rightSwipe) {
+                        if (rightSwipe) {
                             this.timelinePrev()
                         } else {
                             this.timelineNext()
                         }
                     })
                 }
-            	
+
             } else {
-            	let circles = this.container.querySelectorAll('.active-icon-a, .active-icon-b')
-            	circles.forEach((circle, i) => {
-            		circle.addEventListener("mouseenter", function() {
-		    					gsap.to(this.querySelector('.st3'), {
-		    						duration: 0.3, 
-		    						scale: 1.2, 
-		    						ease: "power2.out", 
-		    						overwrie: "all",
-		    						transformOrigin: "50% 50%"
-		    					})
-		    				}, false)
-		    			  circle.addEventListener("mouseleave", function() {
-		    					gsap.to(this.querySelector('.st3'), {
-		    						duration: 0.3, 
-		    						scale: 1, 
-		    						ease: "power2.out", 
-		    						transformOrigin: "50% 50%",
-		    						overwrie: "all"})
-		    				}, false)
-            	})
+                if (this.options.hoverCircle) {
+                    let circles = this.container.querySelectorAll('.active-icon-a, .active-icon-b')
+                    circles.forEach((circle, i) => {
+                        circle.addEventListener("mouseenter", function() {
+                            gsap.to(this.querySelector('.st3'), {
+                                duration: 0.3,
+                                scale: 1.2,
+                                ease: "power2.out",
+                                overwrie: "all",
+                                transformOrigin: "50% 50%"
+                            })
+                        }, false)
+                        circle.addEventListener("mouseleave", function() {
+                            gsap.to(this.querySelector('.st3'), {
+                                duration: 0.3,
+                                scale: 1,
+                                ease: "power2.out",
+                                transformOrigin: "50% 50%",
+                                overwrie: "all"
+                            })
+                        }, false)
+                    })
+                }
+
             }
-            
+
         }
 
     }
@@ -565,7 +569,8 @@ import { swipe } from './swipedirection'
         repeatDelay: 1,
         stageTransitionDelay: 1,
         triggerHook: "onCenter",
-        touchSupport: false
+        touchSupport: false,
+        hoverCircle: false
     }
 
     new NetworkStage(document.querySelector('#network-stage'))

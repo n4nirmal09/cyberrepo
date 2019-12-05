@@ -59,13 +59,16 @@ import { settings } from './settings'
         createSlider() {
             $(this.slider).slick({
                 dots: false,
-                infinite: false,
-                speed: 300,
+                infinite: true,
+                pauseOnFocus: false,
+                pauseOnHover: false,
                 slidesToShow: 1,
-                adaptiveHeight: true,
+                adaptiveHeight: false,
                 arrows: false,
                 swipe: true,
-                touchMove: true
+                touchMove: true,
+                autoplay: this.options.autoplay,
+                autoplaySpeed: this.options.autoplaySpeed
             })
             $(this.slider).slick('slickGoTo', this.options.defaultNav)
             this.activeNavCheck(this.options.defaultNav)
@@ -112,7 +115,9 @@ import { settings } from './settings'
 
     WorkSteps.defaults = {
         defaultNav: 0,
-        ripple: true
+        ripple: true,
+        autoplay: true,
+        autoplaySpeed: 8000,
     }
 
     new WorkSteps(document.querySelector('#steps-slider'))

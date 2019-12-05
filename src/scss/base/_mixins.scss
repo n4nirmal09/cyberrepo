@@ -89,10 +89,14 @@
 
 // Container mixin 
 
-@mixin layout-container() {
+@mixin layout-container($smaller: false) {
   @include media-breakpoint-custom-down($screen-hd) {
-    max-width: $container-max-width-laptops;
+    @if $smaller != 'smaller' {
+      max-width: $container-max-width-laptops;
+    }
+    
   }
+  
 
   @include media-breakpoint-custom-down($screen-lg) {
     padding-left: 60px;
@@ -107,6 +111,9 @@
   margin-left: auto;
   margin-right: auto;
   max-width: $container-max-width;
+  @if $smaller == 'smaller' {
+    max-width: $container-max-width-smaller;
+  }
   padding-left: 60px;
   padding-right: 60px;
 }

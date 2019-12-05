@@ -60,15 +60,20 @@
     @include media-breakpoint-custom-down($screen-sm) {
       padding-top: 20px;
     }
-    @include layout-container();
+    @include layout-container('smaller');
     padding-top: 80px;
     text-align: center;
 
     &-title {
 
-      &-h2, 
+      &-h2,
+      &-h3,
       &-para {
-        @include header-font();
+        @include featured-font();
+      }
+
+      &-sub {
+        color: $light-blue-color;
       }
 
       &-para {
