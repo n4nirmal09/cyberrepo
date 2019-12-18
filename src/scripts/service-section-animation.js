@@ -251,6 +251,8 @@ import { settings } from './settings'
         reverse: false
     }
 
-    window.TL = new ServiceAnim(document.querySelector('#service-animation'))
+    if(document.querySelector('#service-animation')) new ServiceAnim(document.querySelector('#service-animation'))
+
+   
 
 })(jQuery, window)

@@ -67,6 +67,7 @@ import { settings } from './settings'
         },
 
         bannerAnimation() {
+            if(!document.querySelector('.hero-banner__container')) return
             let heroBannerContainer = document.querySelector('.hero-banner__container'),
                 outerPath = document.querySelector('.hero-banner__circle-outerpath'),
                 innerPath = document.querySelector('.hero-banner__circle-innerpath'),
@@ -131,6 +132,7 @@ import { settings } from './settings'
         },
 
         parallax() {
+            if(!document.querySelector('.hero-banner')) return
             let heroBanner = document.querySelector('.hero-banner'),
                 background = heroBanner.querySelector('.background'),
                 content = heroBanner.querySelector('.hero-banner__row'),
@@ -176,6 +178,8 @@ import { settings } from './settings'
                 .addTo(scrollController);
         }
     }
+
+
 
     banners.lazyLoading()
     if(!utilities.isIE()) {

@@ -112,12 +112,12 @@
       overflow: hidden;
     }
 
-    &-span {
+    &-word-wrapper {
 
       overflow: hidden;
     }
 
-    &-span, 
+    &-word-wrapper , 
     &-word {
       @include media-breakpoint-custom-down($screen-sm) {
         display: block;

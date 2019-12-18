@@ -152,7 +152,7 @@
   //padding-right: 20px;
 
   &__row {
-    @include media-breakpoint-custom-down($screen-sm) {
+    @include media-breakpoint-custom-down($screen-md) {
       flex-direction: row;
     }
     display: flex;
@@ -161,7 +161,7 @@
   }
 
   &__col {
-    @include media-breakpoint-custom-down($screen-sm) {
+    @include media-breakpoint-custom-down($screen-md) {
       flex: 0 0 100% !important;
       max-width: 100% !important;
     }
@@ -196,17 +196,21 @@
   }
 
   &__figure {
-    @include media-breakpoint-custom-up($screen-sm) {
+    @include media-breakpoint-custom-up($screen-md) {
 
       margin-right: 0;
 
     }
-    @include media-breakpoint-custom-down($screen-sm) {
+    @include media-breakpoint-custom-down($screen-md) {
       margin-bottom: 20px;
     }
     
 
     > img {
+      @include media-breakpoint-custom-down($screen-md) {
+        margin-left: auto;
+        margin-right: auto;
+      }
       display: block;
     }
   }

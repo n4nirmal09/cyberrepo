@@ -117,9 +117,9 @@ import { settings } from './settings'
         defaultNav: 0,
         ripple: true,
         autoplay: true,
-        autoplaySpeed: 8000,
+        autoplaySpeed: 10000,
     }
 
-    new WorkSteps(document.querySelector('#steps-slider'))
+    if(document.querySelector('#steps-slider')) new WorkSteps(document.querySelector('#steps-slider'))
     
 })(jQuery)

@@ -15,6 +15,8 @@ import { swipe } from './swipedirection'
             this.navPrev = this.container.querySelector('.network-stage__arrow--prev')
             this.activeSlide = 1
             this.onFocus = false
+            this.loopDirection = 'forward'
+            this.loopInterval = null
             this.init()
         }
 
@@ -404,17 +406,48 @@ import { swipe } from './swipedirection'
             console.log(this.activeSlide)
         }
 
+        // LoopRest
+        clearLoop() {
+            if (this.loopInterval) clearTimeout(this.loopInterval)
+        }
+        resetLoop(direction) {
+            if (!this.options.autoPlay) return
+
+            this.loopInterval = setTimeout(() => {
+                if(direction === 'forward') {
+                    this.loopDirection = 'forward'
+                    this.timelineNext()
+                } else {
+                    this.loopDirection = 'backward'
+                    this.timelinePrev()
+                }
+                
+            }, this.options.autoPlayDelay)
+
+        }
+
+        // Direction
         timelineNext() {
+            this.clearLoop()
             if (this.activeSlide < 3) {
+                this.resetLoop('forward')
                 this.activeSlide += 1
-                this.tl.tweenTo('stage-' + this.activeSlide + '-close')
+                this.tl.timeScale(1).tweenTo('stage-' + this.activeSlide + '-close')
+            } else {
+                this.activeSlide = 1
+                this.tl.timeScale(3).tweenTo('stage-' + this.activeSlide + '-close')
             }
         }
 
         timelinePrev() {
+            this.clearLoop()
             if (this.activeSlide > 1) {
+                this.resetLoop('backward')
                 this.activeSlide -= 1
-                this.tl.tweenTo('stage-' + this.activeSlide + '-close')
+                this.tl.timeScale(1).tweenTo('stage-' + this.activeSlide + '-close')
+            } else {
+                this.activeSlide = 3
+                this.tl.timeScale(3).tweenTo('stage-' + this.activeSlide + '-close')
             }
         }
 
@@ -431,8 +464,9 @@ import { swipe } from './swipedirection'
                 })
                 .setTween(this.tl)
                 .on('enter', () => {
-                    if (!this.options.autoPlay && this.activeSlide === 1) {
+                    if (this.activeSlide === 1) {
                         this.tl.tweenTo('stage-1-close')
+                        this.resetLoop('forward')
                     }
                 })
                 .addTo(this.scrollController)
@@ -565,15 +599,15 @@ import { swipe } from './swipedirection'
     NetworkStage.defaults = {
         parallax: false,
         autoPlay: false,
+        autoPlayDelay: 8000,
         repeat: false,
-        repeatDelay: 1,
         stageTransitionDelay: 1,
         triggerHook: "onCenter",
         touchSupport: false,
         hoverCircle: false
     }
 
-    new NetworkStage(document.querySelector('#network-stage'))
+    if (document.querySelector('#network-stage')) new NetworkStage(document.querySelector('#network-stage'))
 
 
 })(jQuery, window)

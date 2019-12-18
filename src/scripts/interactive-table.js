@@ -109,7 +109,7 @@ import { settings } from './settings'
         ripple: true
     }
 
-    new InteractiveTable(document.querySelector('#interactive-table'))
+    if(document.querySelector('#interactive-table')) new InteractiveTable(document.querySelector('#interactive-table'))
 
 
 
