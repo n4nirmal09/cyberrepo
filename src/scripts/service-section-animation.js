@@ -102,24 +102,28 @@ import { settings } from './settings'
         }
 
         mainTimelineCreation() {
-
+            let inc = 0
             this.tl = gsap.timeline({
                 delay: 0.5
             })
             this.tl.staggerFrom(this.serviceBoxes, 0.5, {y: 200, autoAlpha: 0}, 0.1, 'start')
-            .to(this.container.querySelector('.progress-rail'), { duration: 0.2, autoAlpha: 1 })
+            .to(this.container.querySelector('.progress-rail'), { duration: 0.2, autoAlpha: 1 }, 'start+=' + inc)
 
             this.serviceBoxes.forEach((serviceBox, i) => {
             		this.updateProgress(serviceBox)
-                this.tl.add(this.boxTimeline(serviceBox, i), 'active-tl-' + i)
+                
+                this.tl.add(this.boxTimeline(serviceBox, i), 'start+=' + inc)
+
+                inc+=this.options.circleDrawDuration*.75
             })
 
             this.updateProgress(this.serviceBoxes[this.serviceBoxesLength - 1], 100)
             this.tl.to(this.container.querySelector('.progress-rail'), { 
             	duration: this.progressDuration, 
             	width: this.progressPosition + '%', 
-            	ease: 'none'
-            }, 'end')
+            	ease: 'none',
+                overwrite: 'all'
+            }, 'start+=' + inc)
 
 
         }
@@ -146,7 +150,10 @@ import { settings } from './settings'
         }
 
         boxTimeline(serviceBox, i) {
-            let tl = gsap.timeline()
+            let tl = gsap.timeline(),
+            inc = 1
+
+            
 
             tl.to(this.container.querySelector('.progress-rail'), {
                     duration: this.progressDuration,
@@ -162,38 +169,50 @@ import { settings } from './settings'
                 	autoAlpha: 1
                 }, 'drawCircle-' + i)
                 .to(this.container.querySelector('.progress-rail'), {
-                    duration: this.options.circleDrawDuration,
-                    width: this.progressTravelPosition + '%',
+                    duration: this.options.circleDrawDuration/2,
+                    width: this.progressTravelPosition - 0.4 + '%',
                     ease: 'none'
                 }, 'drawCircle-' + i)
+                .add('box-tl-end-'+i)
 
             return tl
 
         }
 
         drawCircle(parentBox) {
-            let tl = gsap.timeline()
-
+            let tl = gsap.timeline({onComplete: () => this.drawCircle(parentBox)})
+            gsap.set(this.container.querySelectorAll('.service-circle__outer-path--a'), { drawSVG: "0% 0%", rotation: -180, transformOrigin: "50% 50%" })
             tl.to(parentBox.querySelector('.service-circle__outer-path--a'), {
                     duration: this.options.circleDrawDuration,
-                    drawSVG: '0% 51%',
+                    drawSVG: '0% 100%',
                     ease: "none"
                 }, 0)
-                .to(parentBox.querySelector('.service-circle__outer-path--b'), {
-                    duration: this.options.circleDrawDuration,
-                    drawSVG: '100% 49%',
+                .to(parentBox.querySelector('.service-circle__outer-path--a'), {
+                    duration: this.options.circleDrawDuration/2,
+                    drawSVG: '100% 100%',
+                    
                     ease: "none"
-                }, 0)
+                }, this.options.circleDrawDuration/2)
+                // .to(parentBox.querySelector('.service-circle__outer-path--b'), {
+                //     duration: this.options.circleDrawDuration,
+                //     drawSVG: '100% 0%',
+                //     ease: "none"
+                // }, 0)
+                // .to(parentBox.querySelector('.service-circle__outer-path--b'), {
+                //     duration: 0.5,
+                //     drawSVG: '0% 0%',
+                //     ease: "none"
+                // }, 0.5)
 
             return tl
         }
 
         drawBullet(parentBox) {
-        		let tl = gsap.timeline(),
+        		let tl = gsap.timeline({onComplete: () => this.drawBullet(parentBox)}),
         		bulletA = parentBox.querySelector('.service-circle__bullet--a'),
         		bulletB = parentBox.querySelector('.service-circle__bullet--b')
 
-        		tl.to([bulletA, bulletB], {
+        		tl.to([bulletA], {
         			duration: 0.1,
         			autoAlpha: 1,
         			ease: 'none'
@@ -201,20 +220,22 @@ import { settings } from './settings'
         		.to(bulletA, {
         			duration: this.options.circleDrawDuration,
         			svgOrigin: '150px 150px',
-        			rotation: 180,
+        			rotation: "+=360",
+                   // repeat: -1,
         			ease: 'none'
         		}, 0)
-        		.to(bulletB, {
-        			duration: this.options.circleDrawDuration,
-        			svgOrigin: '150px 150px',
-        			rotation: -180,
-        			ease: 'none'
-        		}, 0)
-        		.to([bulletA, bulletB], {
-        			duration: 0.1,
-        			autoAlpha: 0,
-        			ease: 'none'
-        		}, this.options.circleDrawDuration - 0.1)
+        		// .to(bulletB, {
+        		// 	duration: this.options.circleDrawDuration,
+        		// 	svgOrigin: '150px 150px',
+        		// 	rotation: -360,
+          //           repeat: -1,
+        		// 	ease: 'none'
+        		// }, 0)
+        		// .to([bulletA, bulletB], {
+        		// 	duration: 0.1,
+        		// 	autoAlpha: 0,
+        		// 	ease: 'none'
+        		// }, this.options.circleDrawDuration - 0.1)
 
         		return tl
         }
@@ -246,7 +267,7 @@ import { settings } from './settings'
     }
 
     ServiceAnim.defaults = {
-    	circleDrawDuration: 0.7,
+    	circleDrawDuration: 1.6,
     	progressPixelDistance: 50,
         reverse: false
     }

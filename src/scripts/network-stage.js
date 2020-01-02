@@ -10,10 +10,13 @@ import { swipe } from './swipedirection'
             this.container = container
             this.options = Object.assign({}, NetworkStage.defaults, options)
             this.tl = null
+            this.stage1Tl = null
+            this.stage2Tl = null
+            this.stage3TL = null
             this.scrollController = null
             this.navNext = this.container.querySelector('.network-stage__arrow--next')
             this.navPrev = this.container.querySelector('.network-stage__arrow--prev')
-            this.activeSlide = 1
+            this.activeSlide = 0
             this.onFocus = false
             this.loopDirection = 'forward'
             this.loopInterval = null
@@ -36,25 +39,20 @@ import { swipe } from './swipedirection'
 
         // Main Timeline creation
         mainTimelineCreation() {
-            this.tl = gsap.timeline({
-                onComplete: () => {
-                    if (this.options.repeat) {
-                        this.timelineSeekAndPlay('stage-1')
-                    }
+            this.tl = gsap.timeline({onComplete: () => {
+                this.timelineNext()
+                if(this.options.autoPlay) {
+                        this.replayLoop()
                 }
-            })
+            }})
+            this.stage1Tl = gsap.timeline({paused: true})
+            this.stage2Tl = gsap.timeline({paused: true})
+            this.stage3Tl = gsap.timeline({paused: true})
 
             this.tl.add(this.revealAnimation(), 'reveal')
-                .add('stage-1', 1)
-                .add(this.stage3AnimationReveal().timeScale(1.4), 'stage-1')
-                .add(this.stage3AnimationClose().timeScale(1.4), 'stage-1-close')
-                .add('stage-2', 'stage-1-close+=0.6')
-                .add(this.stage2AnimationReveal().timeScale(1.4), 'stage-2')
-                .add(this.stage2AnimationClose().timeScale(1.4), 'stage-2-close')
-                .add('stage-3', 'stage-2-close+=0.6')
-                .add(this.stage1AnimationReveal().timeScale(1.4), 'stage-3')
-                .add(this.stage1AnimationClose().timeScale(1.4), 'stage-3-close')
-                .add('end')
+            this.stage1Tl.add(this.stage3AnimationReveal().timeScale(1.4), 'stage-1')
+            this.stage2Tl.add(this.stage2AnimationReveal().timeScale(1.4), 'stage-1')
+            this.stage3Tl.add(this.stage1AnimationReveal().timeScale(1.4), 'stage-1')
 
         }
 
@@ -92,22 +90,53 @@ import { swipe } from './swipedirection'
         }
 
         // Animation stages
+        stageReveal(stage) {
+            if(!stage) return
+            let tl = gsap.timeline()
+        
+            
+            switch (stage) {
+                case 1:
+                    
+                    this.stage1Tl.play()
+                    break
+                case 2:
+                    this.stage2Tl.play()
+                    break
+                case 3:
+                    this.stage3Tl.play()
+                    break
+                default:
+                    tl = null
+                    break
+            }
+        }
+
+        stageClose(stage) {
+            if(!stage) return
+            let tl = gsap.timeline()
+            switch (stage) {
+                case 1:
+                    this.stage1Tl.reverse()
+                    break
+                case 2:
+                    this.stage2Tl.reverse()
+                    break
+                case 3:
+                    this.stage3Tl.reverse()
+                    break
+                default:
+                    tl = null
+                    break
+            }
+        }
+
         stage1AnimationReveal() {
             let tl = gsap.timeline()
 
             tl.add(this.createReveal2level(this.container.querySelector('#branch-a')), 'branch-start')
                 .add(this.createReveal1level(this.container.querySelector('#branch-b')), 'branch-start+=0.4')
                 .add(this.createReveal1level(this.container.querySelector('#branch-c')), 'branch-start+=0.8')
-
-            return tl
-        }
-
-        stage1AnimationClose() {
-            let tl = gsap.timeline()
-
-            tl.add(this.createClose2level(this.container.querySelector('#branch-a')), 'branch-start')
-                .add(this.createClose1level(this.container.querySelector('#branch-b')), 'branch-start+=0.4')
-                .add(this.createClose1level(this.container.querySelector('#branch-c')), 'branch-start+=0.8')
 
             return tl
         }
@@ -122,16 +151,6 @@ import { swipe } from './swipedirection'
             return tl
         }
 
-        stage2AnimationClose() {
-            let tl = gsap.timeline()
-
-            tl.add(this.createClose1level(this.container.querySelector('#branch-d')), 'branch-start')
-                .add(this.createClose1level(this.container.querySelector('#branch-e')), 'branch-start+=0.4')
-                .add(this.createClose1level(this.container.querySelector('#branch-f')), 'branch-start+=0.8')
-
-            return tl
-        }
-
         stage3AnimationReveal() {
             let tl = gsap.timeline()
 
@@ -139,17 +158,6 @@ import { swipe } from './swipedirection'
                 .add(this.createReveal1level(this.container.querySelector('#branch-h')), 'branch-start+=0.4')
                 .add(this.createReveal1level(this.container.querySelector('#branch-i')), 'branch-start+=0.8')
                 .add(this.createReveal1level(this.container.querySelector('#branch-j')), 'branch-start+=0.12')
-
-            return tl
-        }
-
-        stage3AnimationClose() {
-            let tl = gsap.timeline()
-
-            tl.add(this.createClose1level(this.container.querySelector('#branch-g')), 'branch-start')
-                .add(this.createClose1level(this.container.querySelector('#branch-h')), 'branch-start+=0.4')
-                .add(this.createClose1level(this.container.querySelector('#branch-i')), 'branch-start+=0.8')
-                .add(this.createClose1level(this.container.querySelector('#branch-j')), 'branch-start+=0.12')
 
             return tl
         }
@@ -220,67 +228,6 @@ import { swipe } from './swipedirection'
             return tl
         }
 
-        createClose2level(branch) {
-            let tl = gsap.timeline(),
-                bullet = branch.querySelector('.active-dot'),
-                lineA = branch.querySelector('.active-line-a'),
-                lineB = branch.querySelector('.active-line-b'),
-                iconA = branch.querySelector('.active-icon-a'),
-                iconB = branch.querySelector('.active-icon-b'),
-                textA = branch.querySelector('.active-text-a'),
-                textB = branch.querySelector('.active-text-b')
-
-            tl.to(iconB, {
-                    duration: 0.6,
-                    scale: 0,
-                    transformOrigin: "50% 50%",
-                    ease: "back.in(1.7)",
-                    overwrite: 'all'
-                }, 'iconBClose')
-                .to(textB, {
-                    duration: 0.6,
-                    autoAlpha: 0,
-                    y: "+=20",
-                    ease: "power2.in",
-                    overwrite: 'all'
-                }, 'iconBClose')
-                .to(lineB, {
-                    duration: 1,
-                    drawSVG: "0% 0%",
-                    ease: "power2.in",
-                    overwrite: 'all'
-                }, 'iconBClose')
-                .to(iconA, {
-                    duration: 0.6,
-                    scale: 0,
-                    transformOrigin: "50% 50%",
-                    ease: "back.in(1.7)",
-                    overwrite: 'all'
-                }, 'iconAClose')
-                .to(textA, {
-                    duration: 0.6,
-                    y: "+=20",
-                    autoAlpha: 0,
-                    ease: "power2.in",
-                    overwrite: 'all'
-                }, 'iconAClose')
-                .to(lineA, {
-                    duration: 1,
-                    drawSVG: "0% 0%",
-                    ease: "power2.in",
-                    overwrite: 'all'
-                }, 'iconAClose')
-                .to(bullet, {
-                    duration: 1,
-                    scale: 0,
-                    ease: 'elastic.in(1, 0.4)',
-                    transformOrigin: "50% 50%",
-                    overwrite: 'all'
-                }, 'iconAClose+=0.5')
-
-            return tl
-        }
-
         createReveal1level(branch) {
             gsap.set(branch, { autoAlpha: 1 })
 
@@ -337,58 +284,6 @@ import { swipe } from './swipedirection'
             return tl
         }
 
-        createClose1level(branch) {
-            let tl = gsap.timeline(),
-                bullet = branch.querySelector('.active-dot'),
-                lineA = branch.querySelector('.active-line-a'),
-                iconA = branch.querySelector('.active-icon-a'),
-                textA = branch.querySelector('.active-text-a'),
-                relatedBullets = branch.querySelectorAll('.active-dot--related')
-
-            tl.to(iconA, {
-                    duration: 0.6,
-                    scale: 0,
-                    transformOrigin: "50% 50%",
-                    ease: "back.in(1.7)",
-                    overwrite: 'all'
-                }, 'iconAClose')
-                .to(lineA, {
-                    duration: 1,
-                    drawSVG: "0% 0%",
-                    ease: "power2.in",
-                    overwrite: 'all'
-                }, 'iconAClose')
-                .to(bullet, {
-                    duration: 1,
-                    scale: 0,
-                    ease: 'elastic.in(1, 0.4)',
-                    transformOrigin: "50% 50%",
-                    overwrite: 'all'
-                }, 'iconAClose+=0.5')
-
-            if (textA) {
-                tl.to(textA, {
-                    duration: 0.6,
-                    autoAlpha: 0,
-                    y: "+=20",
-                    overwrite: 'all',
-                    ease: "power2.in"
-                }, 'iconAClose')
-            }
-            if (relatedBullets.length) {
-                tl.to(relatedBullets, {
-                    duration: 1,
-                    ease: 'elastic.in(1, 0.4)',
-                    scale: 0,
-                    stagger: -0.2,
-                    transformOrigin: "50% 50%",
-                    overwrite: 'all'
-                }, 'iconAClose+=0.6')
-            }
-
-            return tl
-        }
-
         //TimelineControls
         timelineTweenToAndPause(label) {
             this.tl.tweenTo(label)
@@ -408,46 +303,49 @@ import { swipe } from './swipedirection'
 
         // LoopRest
         clearLoop() {
-            if (this.loopInterval) clearTimeout(this.loopInterval)
+            if (this.loopInterval) clearInterval(this.loopInterval)
         }
-        resetLoop(direction) {
+        replayLoop(direction) {
             if (!this.options.autoPlay) return
 
-            this.loopInterval = setTimeout(() => {
-                if(direction === 'forward') {
-                    this.loopDirection = 'forward'
-                    this.timelineNext()
-                } else {
-                    this.loopDirection = 'backward'
-                    this.timelinePrev()
-                }
-                
+            this.clearLoop()
+
+            this.loopInterval = setInterval(() => {
+                this.timelineNext()
             }, this.options.autoPlayDelay)
 
         }
 
         // Direction
-        timelineNext() {
-            this.clearLoop()
+        timelineNext(clearLoop) {
+            if(clearLoop) this.clearLoop()
+            
+
             if (this.activeSlide < 3) {
-                this.resetLoop('forward')
                 this.activeSlide += 1
-                this.tl.timeScale(1).tweenTo('stage-' + this.activeSlide + '-close')
+                this.stageReveal(this.activeSlide)
+                this.stageClose(this.activeSlide - 1)
+
             } else {
-                this.activeSlide = 1
-                this.tl.timeScale(3).tweenTo('stage-' + this.activeSlide + '-close')
+                
+               this.activeSlide = 1
+               this.stageReveal(1)
+               this.stageClose(3)
             }
         }
 
         timelinePrev() {
             this.clearLoop()
+
             if (this.activeSlide > 1) {
-                this.resetLoop('backward')
                 this.activeSlide -= 1
-                this.tl.timeScale(1).tweenTo('stage-' + this.activeSlide + '-close')
+                this.stageReveal(this.activeSlide)
+                this.stageClose(this.activeSlide + 1)
+                
             } else {
                 this.activeSlide = 3
-                this.tl.timeScale(3).tweenTo('stage-' + this.activeSlide + '-close')
+                this.stageReveal(3)
+                this.stageClose(1)
             }
         }
 
@@ -464,10 +362,7 @@ import { swipe } from './swipedirection'
                 })
                 .setTween(this.tl)
                 .on('enter', () => {
-                    if (this.activeSlide === 1) {
-                        this.tl.tweenTo('stage-1-close')
-                        this.resetLoop('forward')
-                    }
+                    
                 })
                 .addTo(this.scrollController)
 
@@ -521,10 +416,10 @@ import { swipe } from './swipedirection'
 
             // Navitems
             this.navNext.addEventListener('click', () => {
-                this.timelineNext()
+                this.timelineNext(true)
             })
             this.navPrev.addEventListener('click', () => {
-                this.timelinePrev()
+                this.timelinePrev(true)
             })
 
             // Scroll listeners invocation and for resize
@@ -539,10 +434,10 @@ import { swipe } from './swipedirection'
             document.addEventListener('keydown', (e) => {
                 switch (e.keyCode) {
                     case 37:
-                        if (this.onFocus) this.timelinePrev()
+                        if (this.onFocus) this.timelinePrev(true)
                         break
                     case 39:
-                        if (this.onFocus) this.timelineNext()
+                        if (this.onFocus) this.timelineNext(true)
                 }
             })
 
@@ -556,9 +451,9 @@ import { swipe } from './swipedirection'
 
                     swipe.registerSwipe(this.container.querySelector('.network-stage__canvas'), (rightSwipe) => {
                         if (rightSwipe) {
-                            this.timelinePrev()
+                            this.timelinePrev(true)
                         } else {
-                            this.timelineNext()
+                            this.timelineNext(true)
                         }
                     })
                 }
@@ -598,8 +493,8 @@ import { swipe } from './swipedirection'
 
     NetworkStage.defaults = {
         parallax: false,
-        autoPlay: false,
-        autoPlayDelay: 8000,
+        autoPlay: true,
+        autoPlayDelay: 5000,
         repeat: false,
         stageTransitionDelay: 1,
         triggerHook: "onCenter",
